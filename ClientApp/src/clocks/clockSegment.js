@@ -1,5 +1,9 @@
 import React from 'react';
 
+/// Props
+/// - ticked
+/// - clockSize
+/// - value
 class ClockSegment extends React.Component {
   render(){
     var tickedClass = this.props.ticked ? "ticked" : "unticked";  
@@ -7,9 +11,6 @@ class ClockSegment extends React.Component {
     var skew = 90 - circleAngle;
 
     var rotationAngle = ( circleAngle * ( this.props.value ) );
-
-
-    console.log(circleAngle);
 
     var style = {
       transform: "rotate(" + rotationAngle + "deg) skew(0, " + skew + "deg)"
@@ -20,7 +21,7 @@ class ClockSegment extends React.Component {
            className={ "clock-segment " + tickedClass }
            style={ style }>
       </div>
-    )
+    );
   }
 }
 
