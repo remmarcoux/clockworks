@@ -1,10 +1,13 @@
 import React from 'react';
 import Clock from './clock';
+import ClockEdit from './clockEdit';
 
 /// Props
 /// - clockInfos
 /// - onNameChanged
 /// - onValueChanged
+/// - onSegmentsCountChanged
+/// - onColorChanged
 /// - onDelete
 class ClockControls extends React.Component {
     state = {
@@ -16,17 +19,17 @@ class ClockControls extends React.Component {
         var infos = this.state.dirty === true ? this.state.clockInfos : this.props.clockInfos;
 
         return (
-            <div className="clock-container">
+            <div className={ `clock-container ${infos.color}` }>
                 <Clock clockInfos={ infos }
                        onValueChanged={ this.onValueChanged } />
+                <ClockEdit clockInfos={ infos }
+                           onSegmentsCountChanged={ this.onSegmentsCountChanged } 
+                           onColorChanged={ this.onColorChanged }
+                           onDeleteClicked={ this.onDeleteClicked } />
                 <input className="clock-label" 
                        value={ infos.name } 
                        onChange={ this.onNameChangedInternal }
                        onBlur={ this.onNameChanged } />
-                <button className="clock-delete" 
-                        onClick={ this.onDeleteClicked } >
-                    <i className="fas fa-ban" />
-                </button>
             </div>
         );
     }
@@ -52,8 +55,16 @@ class ClockControls extends React.Component {
         this.props.onDelete(this.props.clockInfos._id);
     }
 
+    onSegmentsCountChanged = (newValue) => {
+        this.props.onSegmentsCountChanged(this.props.clockInfos._id, newValue);
+    }
+
     onValueChanged = (newValue) => {
-        this.props.onValueChanged(this.props.clockInfos._id, newValue)
+        this.props.onValueChanged(this.props.clockInfos._id, newValue);
+    }
+
+    onColorChanged = (newValue) => {
+        this.props.onColorChanged(this.props.clockInfos._id, newValue);
     }
 }
 

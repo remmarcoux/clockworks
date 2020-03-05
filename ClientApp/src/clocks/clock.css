@@ -1,3 +1,4 @@
+/* Clock Display */
 .clock-container {
   position: relative;
   height: 250px;
@@ -49,6 +50,55 @@
   background-color: #eeeeee;
 }
 
+
+/* Clock Settings */
+.clock-settings .clock-toggle-settings-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  border-style: none;
+  font-weight: bold;
+  font-size: 30px;
+  color: #54688f;
+  background: none;
+  text-align: center;
+  vertical-align: middle;
+  transition: ease 200ms;
+}
+
+.clock-settings.opened .clock-toggle-settings-button {
+  color: #dedede;
+}
+
+.clock-settings .clock-settings-pannel {
+  transform: rotateX(90deg);
+  transition: ease 200ms;
+  transform-origin: top left;
+  position: absolute;
+  width: 100%;
+  height: 90%;
+  padding: 10% 0 0;
+  border: solid 2px #333;
+  background-color: #3339;
+}
+
+.clock-settings.opened .clock-settings-pannel {
+  transform: rotateX(0);
+}
+
+.clock-settings .clock-master-option {
+  color: #dedede;
+  margin: 10px 25px;
+}
+
+.clock-settings .clock-master-option select, 
+.clock-settings .clock-master-option input {
+  width: 100%;
+  text-align: center;
+  text-align-last: center;
+}
+
 .clock-label {
   position: absolute;
   bottom: -30px;
@@ -67,19 +117,21 @@
 
 .clock-delete {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 5px;
+  right: 5px;
   padding: 0;
   border-radius: 50%;
   border-style: none;
   font-weight: bold;
   font-size: 32px;
-  color: #550000;
+  color: #860000;
   background: none;
   text-align: center;
   vertical-align: middle;
 }
 
+
+/* Master Controls */
 .clocks-master-controls {
   text-align: center;
   vertical-align: middle;

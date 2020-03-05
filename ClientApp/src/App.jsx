@@ -15,6 +15,8 @@ class App extends React.Component {
         clocks.push(<ClockControls clockInfos={ clock }
                                    onNameChanged={ this.onNameChanged }
                                    onValueChanged={ this.onValueChanged }
+                                   onSegmentsCountChanged={ this.onSegmentsCountChanged }
+                                   onColorChanged={ this.onColorChanged }
                                    onDelete={ this.onDeleteClock }
                                    key={ clocks.length } />);
       });
@@ -81,6 +83,14 @@ class App extends React.Component {
 
   onValueChanged = (id, value) => {
     this.changeField(id, "value", value);
+  }
+
+  onSegmentsCountChanged = (id, value) => {
+    this.changeField(id, "segments", value);
+  }
+
+  onColorChanged = (id, value) => {
+    this.changeField(id, "color", value);
   }
 
   onAddClock = (clockName, segmentsCount) => {
