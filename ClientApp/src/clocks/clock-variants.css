@@ -1,9 +1,9 @@
 /* Green */
 .green .clock {
-    border-color: #465f46;
+    border-color: #586658;
 }
 .green .clock-segment {
-    border-color: #465f46;
+    border-color: #586658;
 }
 .green .clock-segment.ticked {
     background-color: #2a792a;
@@ -14,23 +14,23 @@
 }
 
 .green .clock-segment.unticked {
-    background-color: #c5e4d1;
+    background-color: #d4e0d9;
 }
 
 .green .clock-segment.unticked:nth-child(2n) {
-    background-color: #e9f8ee;
+    background-color: #f2f8f4;
 }
 
 .green .clock-toggle-settings-button {
-    color: #465f46;
+    color: #586658;
 }
 
 /* Red */
 .red .clock {
-    border-color: #5f4646;
+    border-color: #685c5c;
 }
 .red .clock-segment {
-    border-color: #5f4646;
+    border-color: #685c5c;
 }
 .red .clock-segment.ticked {
     background-color: #792a2a;
@@ -41,13 +41,13 @@
 }
 
 .red .clock-segment.unticked {
-    background-color: #e4c5c5;
+    background-color: #e4d9d9;
 }
 
 .red .clock-segment.unticked:nth-child(2n) {
-    background-color: #f8e9e9;
+    background-color: #f8eded;
 }
 
 .red .clock-toggle-settings-button {
-    color: #5f4646;
+    color: #685c5c;
 }

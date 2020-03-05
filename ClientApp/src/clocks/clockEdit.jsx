@@ -107,7 +107,7 @@ class ClockEdit extends React.Component {
             return;
         }
 
-        if(value <= 2 && value !== "")
+        if(value <= 2 || value === "")
         {
             value = 3;
         }
