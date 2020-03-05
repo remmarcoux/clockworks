@@ -31,7 +31,6 @@ class ClockEdit extends React.Component {
         var colors = [];
         this.state.colors.forEach((colorInfo) =>{
             colors.push(<option value={colorInfo.value} 
-                                selected={clockInfos.color === colorInfo.value}
                                 key={colors.length}>{colorInfo.label}</option>)
         });
         return (
@@ -55,6 +54,7 @@ class ClockEdit extends React.Component {
                     <div className="clock-master-option">
                         <label htmlFor="colors">Color</label>
                         <select name="colors" 
+                                value={this.state.clockInfos.color}
                                 disabled={!this.state.opened}
                                 id={`clock-${clockInfos._id}-color`}
                                 onChange={ this.onColorChanged }>
@@ -116,7 +116,14 @@ class ClockEdit extends React.Component {
     }
 
     onColorChanged = (e) => {
-        this.props.onColorChanged(e.target.value);
+        var value =  e.target.value;;
+        var clockInfos = this.state.clockInfos;
+        clockInfos.color = value;
+        
+        this.setState({
+            clockInfos: clockInfos
+        });
+        this.props.onColorChanged(value);
     }
 }
 
