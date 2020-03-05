@@ -1,5 +1,6 @@
 import React from 'react';
 import ClockControls from './clocks/clockControls';
+import ClockMaster from './clocks/clockMaster';
 import './App.css';
 
 class App extends React.Component {
@@ -12,30 +13,44 @@ class App extends React.Component {
       this.state.clocks.forEach(clock => {
         clocks.push(<ClockControls clockInfos={ clock }
                                    onNameChanged={ this.onNameChanged }
-                                   onValueChanged={ this.onValueChanged } />);
+                                   onValueChanged={ this.onValueChanged }
+                                   key={ clocks.length } />);
       });
     }
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1>ClockWorks</h1>
-        </header>
-        <main>
-          { clocks }
-        </main>
-        <footer>
-        </footer>
+      <div className="clocks-master-container">
+        {clocks}
+        <div className="clocks-master-controls">
+          <ClockMaster onAddClock={ this.onAddClock } />
+        </div>
       </div>
     );  
   }
 
   componentDidMount() {
-    this.fetchClocksInfos();
-    this.polling = setInterval(this.fetchClocksInfos, 5000);
+    this.refreshClocksInfos();
+    this.startPolling();
   }
 
   componentWillUnmount() {
-    clearInterval(this.polling);
+    this.stopPolling();
+  }
+
+  startPolling = () => {
+    if(this.polling != null)
+    {
+      this.stopPolling();
+    }
+
+    this.polling = setInterval(this.refreshClocksInfos, 5000);
+  }
+
+  stopPolling = () => {
+    if(this.polling != null)
+    {
+      clearInterval(this.polling);
+    }
+    this.polling = null;
   }
 
   setClocksInfos = (data) => {
@@ -47,7 +62,7 @@ class App extends React.Component {
   // Event Listeners
   changeField = (id, field, data) => {
     var clocks = this.state.clocks;
-    var clockIndex = clocks.findIndex((clock)=>clock._id == id);
+    var clockIndex = clocks.findIndex((clock)=>clock._id === id);
     var updatedClock = clocks[clockIndex];
     
     updatedClock[field] = data;
@@ -57,25 +72,55 @@ class App extends React.Component {
     this.setState({
       clocks
     }, ()=>{ this.putClockById(id, updatedClock);
-             this.fetchClocksInfos(); } );
+             this.refreshClocksInfos(); } );
   }
 
   onNameChanged = (id, name) =>{
     this.changeField(id, "name", name);
   }
 
-  onValueChanged= (id, value) => {
+  onValueChanged = (id, value) => {
     this.changeField(id, "value", value);
   }
 
+  onAddClock = (clockName, segmentsCount) => {
+    var data = {
+      name: clockName,
+      segments: segmentsCount,
+      value: 0
+    };
+    this.postNewClock(data)
+  }
+
+  onClockAdded = () => {
+    // TODO: Awaiting refresh, we should put a screen blocker of sorts
+
+    this.refreshClocksInfos();
+  }
+
   // Connexion Stuff
-  fetchClocksInfos = () => {
-    fetch(`/api/v1/clock/list?t=${Date.now()}`).then(this.onDataRecieved)
-                                               .then(this.setClocksInfos);
+  refreshClocksInfos = () => {
+    this.stopPolling();
+    return fetch(`/api/v1/clock/list?t=${Date.now()}`).then(this.onDataRecieved)
+                                                      .then(this.setClocksInfos)
+                                                      .then(this.startPolling);
+  }
+
+  postNewClock = (clockInfo) => {
+    // Stop polling during operations
+    this.stopPolling();
+
+    return fetch(`/api/v1/clock`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(clockInfo)
+    }).then(this.onClockAdded);
   }
 
   putClockById = (clockId, clockInfo) => {
-    fetch(`/api/v1/clock/${clockId}`, {
+    return fetch(`/api/v1/clock/${clockId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"

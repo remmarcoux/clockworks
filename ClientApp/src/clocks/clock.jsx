@@ -9,7 +9,7 @@ class Clock extends React.Component {
   render() {
     var infos = this.props.clockInfos;
     var onClockChange = (number) => {
-      var newCount = infos.value == number ? number - 1 : number; 
+      var newCount = infos.value === number ? number - 1 : number; 
       this.props.onValueChanged(newCount);
     }
 

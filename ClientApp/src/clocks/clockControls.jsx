@@ -20,11 +20,15 @@ class ClockControls extends React.Component {
                        onValueChanged={ this.onValueChanged } />
                 <input className="clock-label" 
                        value={ this.state.name } 
-                       onChange={ (e)=> { this.setState({name: e.target.value})} }
+                       onChange={ this.onNameChangedInternal }
                        onBlur={ this.onNameChanged } />
-                <button className="clock-delete" onClicked={ this.onDeleteClicked } >X</button>
+                <button className="clock-delete" onClick={ this.onDeleteClicked } >X</button>
             </div>
         );
+    }
+
+    onNameChangedInternal = (e)=> { 
+        this.setState({name: e.target.value});
     }
 
     onNameChanged = (e) => {
