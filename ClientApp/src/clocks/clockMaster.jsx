@@ -60,12 +60,13 @@ class ClockMaster extends React.Component {
     }
 
     onAddClock = () => {
-        if( this.state.segmentsCount === "")
+        var segmentsCount = this.state.segmentsCount; 
+        if( segmentsCount === "")
         {
-            this.state.segmentsCount = this.defaultClockState.segmentsCount;
+            segmentsCount = this.defaultClockState.segmentsCount;
         }
         
-        this.props.onAddClock(this.state.clockName, this.state.segmentsCount);
+        this.props.onAddClock(this.state.clockName, segmentsCount);
         this.setState(this.defaultClockState);
     }
 }

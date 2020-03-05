@@ -93,6 +93,10 @@ class App extends React.Component {
   }
 
   onDeleteClock = (clockId) => {
+    var clocks = this.state.clocks;
+    clocks = clocks.filter((value, index, arr)=>{ return value._id !== clockId; });
+    this.setState({clocks: clocks});
+
     this.deleteClockById(clockId);
   }
 

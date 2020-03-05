@@ -8,31 +8,44 @@ import Clock from './clock';
 /// - onDelete
 class ClockControls extends React.Component {
     state = {
-        name: this.props.clockInfos.name
+        dirty: false,
+        clockInfos: this.props.clockInfos,
     }
 
     render() {
-        var infos = this.props.clockInfos;
+        var infos = this.state.dirty === true ? this.state.clockInfos : this.props.clockInfos;
 
         return (
             <div className="clock-container">
                 <Clock clockInfos={ infos }
                        onValueChanged={ this.onValueChanged } />
                 <input className="clock-label" 
-                       value={ this.state.name } 
+                       value={ infos.name } 
                        onChange={ this.onNameChangedInternal }
                        onBlur={ this.onNameChanged } />
-                <button className="clock-delete" onClick={ this.onDeleteClicked } ><i className="fas fa-ban" /></button>
+                <button className="clock-delete" 
+                        onClick={ this.onDeleteClicked } >
+                    <i className="fas fa-ban" />
+                </button>
             </div>
         );
     }
 
     onNameChangedInternal = (e)=> { 
-        this.setState({name: e.target.value});
+        var infos = this.state.clockInfos;
+        infos.name = e.target.value;
+
+        this.setState({
+            dirty: true,
+            clockInfos: infos
+        });
     }
 
     onNameChanged = (e) => {
-        this.props.onNameChanged(this.props.clockInfos._id, this.state.name);
+        this.setState({
+            dirty: false
+        });
+        this.props.onNameChanged(this.props.clockInfos._id, this.state.clockInfos.name);
     }
 
     onDeleteClicked = (e) => {
