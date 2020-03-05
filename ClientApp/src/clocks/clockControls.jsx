@@ -22,7 +22,7 @@ class ClockControls extends React.Component {
                        value={ this.state.name } 
                        onChange={ this.onNameChangedInternal }
                        onBlur={ this.onNameChanged } />
-                <button className="clock-delete" onClick={ this.onDeleteClicked } >X</button>
+                <button className="clock-delete" onClick={ this.onDeleteClicked } ><i className="fas fa-ban" /></button>
             </div>
         );
     }

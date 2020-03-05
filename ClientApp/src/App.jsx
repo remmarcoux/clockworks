@@ -2,6 +2,7 @@ import React from 'react';
 import ClockControls from './clocks/clockControls';
 import ClockMaster from './clocks/clockMaster';
 import './App.css';
+import '@fortawesome/fontawesome-free/css/all.min.css'
 
 class App extends React.Component {
   polling = null;

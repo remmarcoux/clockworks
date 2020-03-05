@@ -1,71 +1,140 @@
 .clock-container {
-    position: relative;
-    height: 200px;
-    width: 200px;
-    display: inline-block;
-    margin: 20px;
-  }
-  
-  .clock {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    border-radius: 50%;
-    border: solid 4px #bebebe;
-    display: inline-block;
-    overflow: hidden;
-  }
-  
-  .clock-segment {
-    box-sizing: border-box;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: -50%;
-    left: -50%;
-    border: solid 2px #bebebe;
-    transform-origin: bottom right;
-  }
-  
-  .clock-segment.ticked {
-    background-color: #007900;
-  }
-  
-  .clock-segment.ticked:nth-child(2n) {
-    background-color: #00aa00;
-  }
-  
-  .clock-segment.unticked {
-    background-color: #dedede;
-  }
-  
-  .clock-segment.unticked:nth-child(2n) {
-    background-color: #eeeeee;
-  }
+  position: relative;
+  height: 250px;
+  width: 250px;
+  display: inline-block;
+  margin: 50px;
+  vertical-align: top;
+}
 
-  .clock-label {
-    position: absolute;
-    bottom: -15px;
-    left: 0;
-    height: 25px;
-    width: 100%;
-    text-align: center;
-    background-color: rgba(200,200,200,0.75);
-    border: none;
-  }
-  .clock-label:focus, .clock-label:active {
-    background-color: #eeeeee;
-  }
+.clock {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  border: solid 4px;
+  border-color: #858585;
+  display: inline-block;
+  overflow: hidden;
+}
 
-  .clock-delete {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    border-style: none;
-    background-color: #990000;
-  }
+.clock-segment {
+  box-sizing: border-box;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: -50%;
+  left: -50%;
+  border: solid 2px;
+  border-color: #858585;
+  transform-origin: bottom right;
+  transition: ease 200ms;
+}
+
+.clock-segment.ticked {
+  background-color: #3f434d;
+}
+
+.clock-segment.ticked:nth-child(2n) {
+  background-color: #54688f;
+}
+
+.clock-segment.unticked {
+  background-color: #dedede;
+}
+
+.clock-segment.unticked:nth-child(2n) {
+  background-color: #eeeeee;
+}
+
+.clock-label {
+  position: absolute;
+  bottom: -30px;
+  left: 0;
+  height: 25px;
+  width: 100%;
+  text-align: center;
+  background-color: rgba(200,200,200,0.75);
+  border: solid 1px;
+  border-color: #333 ;
+  font-weight: bold;
+}
+.clock-label:focus, .clock-label:active {
+  background-color: #eeeeee;
+}
+
+.clock-delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0;
+  border-radius: 50%;
+  border-style: none;
+  font-weight: bold;
+  font-size: 32px;
+  color: #550000;
+  background: none;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.clocks-master-controls {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.clocks-master-controls .clock-option-pannel {
+  border: solid 3px #858585;
+  border-radius: 50%;
+  width: 70%;
+  height: 70%;
+  background: #eeeeee66;
+  padding: 15%;
+}
+
+.clocks-master-controls .clock-master-option
+{
+  display: inline-block;
+  margin: 5px 0;
+}
+
+.clocks-master-controls label
+{
+  font-style: italic;
+}
+
+.clocks-master-controls input
+{
+  padding: 5px;
+  text-align: center;
+}
+
+.clocks-master-controls #new-clock-segments-count {
+  width: 50px;
+  display: block;
+  margin: auto;
+  text-align: center;
+}
+
+input#new-clock-segments-count::-webkit-outer-spin-button,
+input#new-clock-segments-count::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.clocks-master-controls .clock-add {
+  display: inline-block;
+  margin: 5px auto;
+  border: solid 2px #333;
+  padding: 15px;
+  font-weight: bold;
+  background-color: #eeeeee;
+  transition: ease 200ms;
+}
+
+.clocks-master-controls .clock-add:hover {
+  background-color: #54688f;
+  color: #eee;
+}

@@ -12,18 +12,28 @@ class ClockMaster extends React.Component {
 
     render() {
         return (
-            <div className="clock-master-controls clock-container">
-                <input type="text" 
-                       name="clockName" 
-                       id="new-clock-name"
-                       onChange={ this.onClockNameChanged } />
-                <input type="number"
-                       name="segmentsCount" 
-                       id="new-clock-segments-count" 
-                       value={this.state.segmentsCount}
-                       onChange={ this.onClockSegmentsCountChanged }  />
+            <div className="clocks-master-controls clock-container">
+                <div className="clock-option-pannel">
 
-                <button className="clock-add" onClick={ this.onAddClock } >Add Clock</button>
+                    <div className="clock-master-option">
+                        <label htmlFor="clockName">Clock Name</label>
+                        <input type="text" 
+                            name="clockName" 
+                            id="new-clock-name"
+                            value={ this.state.clockName }
+                            onChange={ this.onClockNameChanged } />
+                    </div>
+                    <div className="clock-master-option">
+                        <label htmlFor="segmentsCount"># Segments</label>
+                        <input type="number"
+                            name="segmentsCount" 
+                            id="new-clock-segments-count" 
+                            value={this.state.segmentsCount}
+                            onChange={ this.onClockSegmentsCountChanged }  />
+                    </div>
+
+                    <button className="clock-add" onClick={ this.onAddClock } >Add Clock</button>
+                </div>
             </div>
         );
     }
@@ -36,20 +46,25 @@ class ClockMaster extends React.Component {
     onClockSegmentsCountChanged = (e) => {
         var value = e.target.value;
 
-        if( isNaN( value ) )
+        if( isNaN( value ) && value !== "" )
         {
-            value = this.defaultClockState.segmentsCount;
+            return;
         }
 
-        if( value <= 2 )
+        if(value <= 2 && value !== "")
         {
-            value = this.defaultClockState.segmentsCount;
+            value = 2;
         }
 
         this.setState({segmentsCount: value});
     }
 
     onAddClock = () => {
+        if( this.state.segmentsCount === "")
+        {
+            this.state.segmentsCount = this.defaultClockState.segmentsCount;
+        }
+        
         this.props.onAddClock(this.state.clockName, this.state.segmentsCount);
         this.setState(this.defaultClockState);
     }

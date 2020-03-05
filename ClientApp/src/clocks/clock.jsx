@@ -1,6 +1,7 @@
 import React from 'react';
 import ClockSegment from './clockSegment';
 import "./clock.css"
+import "./clock-variants.css"
 
 /// Props
 /// - clockInfos

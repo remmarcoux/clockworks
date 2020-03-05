@@ -1,0 +1,22 @@
+/* Green */
+.green .clock {
+    border-color: #668a66;
+}
+.green .clock-segment {
+    border-color: #668a66;
+}
+.green .clock-segment.ticked {
+    background-color: #2a792a;
+}
+
+.green .clock-segment.ticked:nth-child(2n) {
+    background-color: #4faa4f;
+}
+
+.green .clock-segment.unticked {
+    background-color: #c5e4d1;
+}
+
+.green .clock-segment.unticked:nth-child(2n) {
+    background-color: #e9f8ee;
+}
