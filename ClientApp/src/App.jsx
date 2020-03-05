@@ -14,15 +14,14 @@ class App extends React.Component {
         clocks.push(<ClockControls clockInfos={ clock }
                                    onNameChanged={ this.onNameChanged }
                                    onValueChanged={ this.onValueChanged }
+                                   onDelete={ this.onDeleteClock }
                                    key={ clocks.length } />);
       });
     }
     return (
       <div className="clocks-master-container">
         {clocks}
-        <div className="clocks-master-controls">
-          <ClockMaster onAddClock={ this.onAddClock } />
-        </div>
+        <ClockMaster onAddClock={ this.onAddClock } />
       </div>
     );  
   }
@@ -92,10 +91,8 @@ class App extends React.Component {
     this.postNewClock(data)
   }
 
-  onClockAdded = () => {
-    // TODO: Awaiting refresh, we should put a screen blocker of sorts
-
-    this.refreshClocksInfos();
+  onDeleteClock = (clockId) => {
+    this.deleteClockById(clockId);
   }
 
   // Connexion Stuff
@@ -116,7 +113,9 @@ class App extends React.Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(clockInfo)
-    }).then(this.onClockAdded);
+    })
+    .then(this.refreshClocksInfos)
+    .then(this.startPolling);
   }
 
   putClockById = (clockId, clockInfo) => {
@@ -127,6 +126,18 @@ class App extends React.Component {
       },
       body: JSON.stringify(clockInfo)
     });
+  }
+
+  deleteClockById = (clockId) => {
+    this.stopPolling();
+    return fetch(`/api/v1/clock/${clockId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then(this.refreshClocksInfos)
+    .then(this.startPolling);
   }
 
   onDataRecieved = (res) => {
