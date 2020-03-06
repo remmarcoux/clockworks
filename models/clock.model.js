@@ -5,7 +5,8 @@ const clockSchema = new mongoose.Schema({
     segments: Number,
     value: Number,
     tags: [String],
-    color: String
+    color: String,
+    order: Number
 });
 
 const Clock = mongoose.model("Clock", clockSchema);

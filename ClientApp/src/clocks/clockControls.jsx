@@ -9,6 +9,8 @@ import ClockEdit from './clockEdit';
 /// - onSegmentsCountChanged
 /// - onColorChanged
 /// - onDelete
+/// - onClockMove
+/// - isLast
 class ClockControls extends React.Component {
     state = {
         dirty: false,
@@ -25,7 +27,9 @@ class ClockControls extends React.Component {
                 <ClockEdit clockInfos={ infos }
                            onSegmentsCountChanged={ this.onSegmentsCountChanged } 
                            onColorChanged={ this.onColorChanged }
-                           onDeleteClicked={ this.onDeleteClicked } />
+                           onDeleteClicked={ this.onDeleteClicked }
+                           onClockMove = { this.onClockMove }
+                           isLast={ this.props.isLast } />
                 <input className="clock-label" 
                        value={ infos.name } 
                        onChange={ this.onNameChangedInternal }
@@ -65,6 +69,10 @@ class ClockControls extends React.Component {
 
     onColorChanged = (newValue) => {
         this.props.onColorChanged(this.props.clockInfos._id, newValue);
+    }
+
+    onClockMove = (direction) => {
+        this.props.onClockMove(this.props.clockInfos, direction);
     }
 }
 

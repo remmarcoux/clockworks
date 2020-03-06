@@ -11,16 +11,20 @@ class App extends React.Component {
     var clocks = [];
     if(this.state && this.state.clocks)
     {
-      this.state.clocks.forEach(clock => {
+      var sortedClocks = this.state.clocks.sort((left, right)=>{ return left.order - right.order; });
+      sortedClocks.forEach((clock, i, array) => {
         clocks.push(<ClockControls clockInfos={ clock }
                                    onNameChanged={ this.onNameChanged }
                                    onValueChanged={ this.onValueChanged }
                                    onSegmentsCountChanged={ this.onSegmentsCountChanged }
                                    onColorChanged={ this.onColorChanged }
                                    onDelete={ this.onDeleteClock }
+                                   onClockMove={ this.onClockMove }
+                                   isLast={ i === array.length -1 }
                                    key={ clocks.length } />);
       });
     }
+    
     return (
       <div className="clocks-master-container">
         {clocks}
@@ -97,9 +101,49 @@ class App extends React.Component {
     var data = {
       name: clockName,
       segments: segmentsCount,
-      value: 0
+      value: 0,
+      order: this.state.clocks.length
     };
     this.postNewClock(data)
+  }
+
+  onClockMove = (clockInfos, direction) => {
+    var newOrder = clockInfos.order + direction;
+    var modifiedClocks = [];
+    this.state.clocks.forEach(clock => {
+      if(clock._id === clockInfos._id)
+      {
+        var newBaseClock = clock;
+        newBaseClock.order = newOrder;
+        modifiedClocks.push(newBaseClock);
+        return;
+      }
+
+      if((direction < 0 && clock.order >= newOrder && clock.order <= clockInfos.order) || (direction > 0 && clock.order <= newOrder && clock.order >= clockInfos.order))
+      {
+        var newClock = clock;
+        newClock.order += direction < 0 ? 1 : -1;
+        modifiedClocks.push(newClock);
+      }
+    });
+
+    var promise = null;
+    for(var i=0; i<modifiedClocks.length; i++)
+    {
+      if(i===0)
+      {
+        promise = this.putClockById(modifiedClocks[i]._id, modifiedClocks[i]);
+        continue;
+      }
+
+      var clock = modifiedClocks[i];
+      promise = promise.then(()=>{ return this.putClockById(clock._id, clock) });
+    }
+
+    if(promise !== null)
+    {
+      promise.then(this.refreshClocksInfos);
+    }
   }
 
   onDeleteClock = (clockId) => {

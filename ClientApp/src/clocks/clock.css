@@ -99,6 +99,41 @@
   text-align-last: center;
 }
 
+.clock-settings-move-item {
+  display: inline-block;
+  width: 50%;
+}
+
+.clock-settings-move-item label {
+  display: block;
+}
+
+.clock-settings-move-item .clock-move {
+  position: relative;
+  border-radius: 50%;
+  background: none;
+  border: none;
+  color: #dedede;
+  font-size: 42px;
+}
+
+.clock-settings-move-item .clock-move::after {
+  content: "";
+  position: absolute;
+  top: calc(50% - 0.4em);
+  left: calc(50% - 0.4em);
+  border-radius: 50%;
+  display: block;
+  background: none;
+  width: 0.8em;
+  height: 0.8em;
+  z-index: -1;
+}
+
+.clock-settings-move-item .clock-move:hover::after {
+  background: #54688f;
+}
+
 .clock-label {
   position: absolute;
   bottom: -30px;

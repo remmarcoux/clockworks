@@ -1,10 +1,12 @@
 import React from 'react';
 
 /// Props
-/// clockInfos
-/// onSegmentsCountChanged
-/// onColorChanged
-/// onDeleteClicked
+/// - clockInfos
+/// - onSegmentsCountChanged
+/// - onColorChanged
+/// - onDeleteClicked
+/// - onClockMove
+/// - isLast
 class ClockEdit extends React.Component {
     state = {
         opened: false,
@@ -60,6 +62,31 @@ class ClockEdit extends React.Component {
                                 onChange={ this.onColorChanged }>
                                     {colors}
                         </select>
+                    </div>
+                    <div className="clock-master-option">
+                        <label htmlFor="colors">Move Clock</label>
+                        <div className="clock-settings-move-wrapper">
+                            <div className="clock-settings-move-item">
+                                { this.state.clockInfos.order > 0 &&
+                                <button name="clock-move-left" 
+                                        onClick={ this.onMoveLeft }
+                                        className="clock-move"
+                                        disabled={!this.state.opened}>
+                                    <i className="fas fa-arrow-alt-circle-left" />
+                                </button>
+                                }
+                            </div>
+                            <div className="clock-settings-move-item">
+                                { !this.props.isLast &&
+                                <button name="clock-move-right"
+                                        onClick={ this.onMoveRight }
+                                        className="clock-move" 
+                                        disabled={!this.state.opened}>
+                                    <i className="fas fa-arrow-alt-circle-right" />
+                                </button>
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <button className="clock-toggle-settings-button"
@@ -124,6 +151,16 @@ class ClockEdit extends React.Component {
             clockInfos: clockInfos
         });
         this.props.onColorChanged(value);
+    }
+
+    onMoveRight = (e) => {
+        this.setState({opened: false});
+        this.props.onClockMove(1);
+    }
+
+    onMoveLeft = (e) => {
+        this.setState({opened: false});
+        this.props.onClockMove(-1);
     }
 }
 

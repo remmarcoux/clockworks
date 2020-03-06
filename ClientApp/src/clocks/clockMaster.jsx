@@ -33,7 +33,7 @@ class ClockMaster extends React.Component {
                     </div>
 
                     <button className="clock-add"
-                            disabled={ this.state.clockName == "" } 
+                            disabled={ this.state.clockName === "" } 
                             onClick={ this.onAddClock } >Add Clock</button>
                 </div>
             </div>
