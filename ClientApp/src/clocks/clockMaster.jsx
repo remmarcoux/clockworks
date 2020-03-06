@@ -32,7 +32,9 @@ class ClockMaster extends React.Component {
                             onChange={ this.onClockSegmentsCountChanged }  />
                     </div>
 
-                    <button className="clock-add" onClick={ this.onAddClock } >Add Clock</button>
+                    <button className="clock-add"
+                            disabled={ this.state.clockName == "" } 
+                            onClick={ this.onAddClock } >Add Clock</button>
                 </div>
             </div>
         );
