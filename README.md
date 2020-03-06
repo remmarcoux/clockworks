@@ -20,7 +20,7 @@ This application uses the [config](https://www.npmjs.com/package/config) package
 
 **Do not change configuration files**
 
-If you wish to configure the application for your environment or workstation, create a file called `local.yml` and put your configuration there or use environment variables. "Config" overwrites keys from the `default.yml` file with `local.yml`, then with environment variables. Nothing overwrites environment variables.
+If you wish to configure the application for your environment or workstation, create a file called `local.yml` and put your configuration there or use environment variables. "Config" overwrites keys from the `default.yml` file with `local.yml`, then with environment variables. Nothing overwrites environment variables. `local.yml` files are gitignored and will not pollute the VCS.
 
 |Key|Env. Variable|Description|
 |---|---|---|
