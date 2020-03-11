@@ -25,6 +25,10 @@
     color: #586658;
 }
 
+.green .clock-toggle-settings-button:hover {
+    color: #4faa4f;
+}
+
 /* Red */
 .red .clock {
     border-color: #685c5c;
@@ -50,4 +54,8 @@
 
 .red .clock-toggle-settings-button {
     color: #685c5c;
+}
+
+.red .clock-toggle-settings-button:hover {
+    color: #792a2a;
 }
