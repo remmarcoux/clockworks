@@ -29,7 +29,8 @@ class ClockMaster extends React.Component {
                             name="segmentsCount" 
                             id="new-clock-segments-count" 
                             value={this.state.segmentsCount}
-                            onChange={ this.onClockSegmentsCountChanged }  />
+                            onChange={ this.onClockSegmentsCountChanged }
+                            onBlur={ this.onClockSegmentsCountBlurred }  />
                     </div>
 
                     <button className="clock-add"
@@ -46,14 +47,20 @@ class ClockMaster extends React.Component {
     }
 
     onClockSegmentsCountChanged = (e) => {
-        var value = e.target.value;
+        var value = e.target.valueAsNumber;
 
-        if( isNaN( value ) && value !== "" )
+        if(isNaN(value))
         {
-            return;
+            value = "";
         }
 
-        if(value <= 2 && value !== "")
+        this.setState({segmentsCount: value });
+    }
+    
+    onClockSegmentsCountBlurred = (e) => {
+        var value = e.target.value;
+
+        if( isNaN( value ) || value === "" || value < 2 )
         {
             value = 2;
         }
