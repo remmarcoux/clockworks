@@ -5,7 +5,7 @@ import './App.css';
 import '@fortawesome/fontawesome-free/css/all.min.css'
 
 class Clockworks extends React.Component {
-  polling = null;
+  socket = null;
 
   render() {
     var clocks = [];
@@ -35,28 +35,30 @@ class Clockworks extends React.Component {
 
   componentDidMount() {
     this.refreshClocksInfos();
-    this.startPolling();
+    this.openWebsocket();
   }
 
   componentWillUnmount() {
-    this.stopPolling();
+    this.closeWebsocket();
   }
 
-  startPolling = () => {
-    if(this.polling != null)
-    {
-      this.stopPolling();
+  openWebsocket = () => {
+    this.socket = new WebSocket(`ws://${ window.location.hostname }:8080`);
+    this.socket.onmessage = (event) => {
+      if(event.data == "list")
+      {
+        console.log("List refreshrequested");
+        this.refreshClocksInfos();
+      } 
     }
-
-    this.polling = setInterval(this.refreshClocksInfos, 5000);
   }
 
-  stopPolling = () => {
-    if(this.polling != null)
+  closeWebsocket = () => {
+
+    if(this.socket != null)
     {
-      clearInterval(this.polling);
+      this.socket.close();
     }
-    this.polling = null;
   }
 
   setClocksInfos = (data) => {
@@ -139,11 +141,6 @@ class Clockworks extends React.Component {
       var clock = modifiedClocks[i];
       promise = promise.then(()=>{ return this.putClockById(clock._id, clock) });
     }
-
-    if(promise !== null)
-    {
-      promise.then(this.refreshClocksInfos);
-    }
   }
 
   onDeleteClock = (clockId) => {
@@ -156,25 +153,18 @@ class Clockworks extends React.Component {
 
   // Connexion Stuff
   refreshClocksInfos = () => {
-    this.stopPolling();
     return fetch(`/api/v1/clock/list?t=${Date.now()}`).then(this.onDataRecieved)
-                                                      .then(this.setClocksInfos)
-                                                      .then(this.startPolling);
+                                                      .then(this.setClocksInfos);
   }
 
   postNewClock = (clockInfo) => {
-    // Stop polling during operations
-    this.stopPolling();
-
     return fetch(`/api/v1/clock`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(clockInfo)
-    })
-    .then(this.refreshClocksInfos)
-    .then(this.startPolling);
+    });
   }
 
   putClockById = (clockId, clockInfo) => {
@@ -188,15 +178,12 @@ class Clockworks extends React.Component {
   }
 
   deleteClockById = (clockId) => {
-    this.stopPolling();
     return fetch(`/api/v1/clock/${clockId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
       }
-    })
-    .then(this.refreshClocksInfos)
-    .then(this.startPolling);
+    });
   }
 
   onDataRecieved = (res) => {
