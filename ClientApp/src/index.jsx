@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import Clockworks from './clockworks';
 import * as serviceWorker from './serviceWorker';
 
 var appContext = (
@@ -10,7 +10,7 @@ var appContext = (
       <h1>ClockWorks</h1>
     </header>
     <main>
-        <App />
+        <Clockworks />
     </main>
     <footer>
     </footer>

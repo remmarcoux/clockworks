@@ -4,7 +4,7 @@ import ClockMaster from './clocks/clockMaster';
 import './App.css';
 import '@fortawesome/fontawesome-free/css/all.min.css'
 
-class App extends React.Component {
+class Clockworks extends React.Component {
   polling = null;
 
   render() {
@@ -208,4 +208,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default Clockworks;
