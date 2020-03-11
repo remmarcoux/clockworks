@@ -17,11 +17,15 @@ class ClockSegment extends React.Component {
     };
 
     return (
-      <div onClick={(e)=>{ this.props.onClockChange( this.props.value ); }} 
+      <div onClick={this.onSegmentClicked } 
            className={ "clock-segment " + tickedClass }
            style={ style }>
       </div>
     );
+  }
+
+  onSegmentClicked = (e) => {
+    this.props.onClockChange( this.props.value );
   }
 }
 
