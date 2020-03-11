@@ -172,13 +172,41 @@
   vertical-align: middle;
 }
 
+.clocks-master-controls .clock-option-toggle-add-menu {
+  position: absolute;
+  top: calc(50% - 38px);
+  left: calc(50% - 34px);
+  font-size: 64px;
+  color: #54688f;
+  background: none;
+  border: none;
+  transition: ease 500ms;
+}
+
+.clocks-master-controls.opened .clock-option-toggle-add-menu {
+  top: -100%;
+}
+
+
+.clocks-master-controls .clock-option-wrapper {
+  position: absolute;
+  top: 200%;
+  left: 0;
+  transition: ease 500ms;
+}
+.clocks-master-controls.opened .clock-option-wrapper {
+  top: 0;
+}
+
 .clocks-master-controls .clock-option-pannel {
+  position: relative;
   border: solid 3px #54688f;
   color: #54688f;
   border-radius: 50%;
   width: 100%;
   height: 100%;
   background: #eeeeee66;
+  overflow: hidden;
 }
 
 .clocks-master-controls .clock-master-option:first-child
@@ -221,7 +249,7 @@ input#new-clock-segments-count::-webkit-inner-spin-button {
 
 .clocks-master-controls .clock-add {
   display: inline-block;
-  margin: 5px auto;
+  margin: 10px 5px;
   border: solid 2px #54688f;
   color: #54688f;
   padding: 5px 15px;
