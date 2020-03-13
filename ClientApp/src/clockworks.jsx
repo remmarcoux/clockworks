@@ -1,11 +1,16 @@
 import React from 'react';
 import ClockControls from './clocks/clockControls';
 import ClockMaster from './clocks/clockMaster';
+import io from 'socket.io-client';
 import './App.css';
 import '@fortawesome/fontawesome-free/css/all.min.css'
 
 class Clockworks extends React.Component {
-  socket = null;
+  socket = io(window.location.protocol + "//" + window.location.hostname + ":" + 8081);
+
+  state = {
+    clocks:[]
+  }
 
   render() {
     var clocks = [];
@@ -35,30 +40,14 @@ class Clockworks extends React.Component {
 
   componentDidMount() {
     this.refreshClocksInfos();
-    this.openWebsocket();
+    this.setupListener();
   }
 
   componentWillUnmount() {
-    this.closeWebsocket();
   }
 
-  openWebsocket = () => {
-    this.socket = new WebSocket(`ws://${ window.location.hostname }:8080`);
-    this.socket.onmessage = (event) => {
-      if(event.data == "list")
-      {
-        console.log("List refreshrequested");
-        this.refreshClocksInfos();
-      } 
-    }
-  }
-
-  closeWebsocket = () => {
-
-    if(this.socket != null)
-    {
-      this.socket.close();
-    }
+  setupListener = () => {
+    this.socket.on("clockListUpdate", this.setClocksInfos);
   }
 
   setClocksInfos = (data) => {

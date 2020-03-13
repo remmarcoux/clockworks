@@ -3,8 +3,9 @@ const config = require("config");
 const winston = require("winston");
 const expressWinston = require("express-winston");
 const mongoose = require("mongoose");
-let app = express();
 const path = require("path");
+const connection = require("./socket.connect");
+let app = connection.app;
 
 mongoose.connect(config.get("database.connectionString"),  { useNewUrlParser: true });
 let db = mongoose.connection;
@@ -27,7 +28,7 @@ app.use(expressWinston.errorLogger(logger));
 db.once("open", function(){
     logger.info("Connected to mongodb");
 
-    app.listen(config.get("server.port"), function(){
+    connection.server.listen(config.get("server.port"), function(){
         logger.info(`Application listening on port ${config.get("server.port")}`)
     });
 });
