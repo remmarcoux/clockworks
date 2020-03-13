@@ -6,7 +6,7 @@ import './App.css';
 import '@fortawesome/fontawesome-free/css/all.min.css'
 
 class Clockworks extends React.Component {
-  socket = io(window.location.protocol + "//" + window.location.hostname + ":" + 8081);
+  socket = io();
 
   state = {
     clocks:[]
