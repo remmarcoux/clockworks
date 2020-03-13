@@ -3,6 +3,12 @@ const router = express.Router();
 const connection = require("../socket.connect");
 const Clock = require("../models").Clock;
 
+const notifyChanges = async function(){
+    let clockList = await Clock.find();
+
+    connection.io.emit("clockListUpdate", clockList);
+}
+
 router.get("/api/v1/clock/list", async function(req, res){
     let clockList = await Clock.find();
     res.send(clockList);
@@ -13,7 +19,7 @@ router.post("/api/v1/clock", async function(req, res){
     await clock.save();
 
     res.send();
-    connection.notifyChanges();
+    notifyChanges();
 });
 
 router.put("/api/v1/clock/:id", async function(req, res){
@@ -22,7 +28,7 @@ router.put("/api/v1/clock/:id", async function(req, res){
     await Clock.findOneAndUpdate({_id: id}, req.body, {upsert: true});
 
     res.send();
-    connection.notifyChanges();
+    notifyChanges();
 });
 
 router.get("/api/v1/clock/:id", async function(req, res){
@@ -35,7 +41,7 @@ router.delete("/api/v1/clock/:id", async function(req, res){
     await Clock.findOneAndDelete({_id: req.params.id});
 
     res.send();
-    connection.notifyChanges();
+    notifyChanges();
 });
 
 module.exports = router;
