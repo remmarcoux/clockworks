@@ -27,8 +27,8 @@ router.put("/api/v1/clock/:id", async function(req, res){
 
     await Clock.findOneAndUpdate({_id: id}, req.body, {upsert: true});
 
-    res.send();
     notifyChanges();
+    res.send();
 });
 
 router.get("/api/v1/clock/:id", async function(req, res){
@@ -40,8 +40,8 @@ router.get("/api/v1/clock/:id", async function(req, res){
 router.delete("/api/v1/clock/:id", async function(req, res){
     await Clock.findOneAndDelete({_id: req.params.id});
 
-    res.send();
     notifyChanges();
+    res.send();
 });
 
 module.exports = router;
