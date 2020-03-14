@@ -1,11 +1,16 @@
 import React from 'react';
 import ClockControls from './clocks/clockControls';
 import ClockMaster from './clocks/clockMaster';
+import io from 'socket.io-client';
 import './App.css';
 import '@fortawesome/fontawesome-free/css/all.min.css'
 
 class Clockworks extends React.Component {
-  polling = null;
+  socket = io();
+
+  state = {
+    clocks:[]
+  }
 
   render() {
     var clocks = [];
@@ -35,28 +40,14 @@ class Clockworks extends React.Component {
 
   componentDidMount() {
     this.refreshClocksInfos();
-    this.startPolling();
+    this.setupListener();
   }
 
   componentWillUnmount() {
-    this.stopPolling();
   }
 
-  startPolling = () => {
-    if(this.polling != null)
-    {
-      this.stopPolling();
-    }
-
-    this.polling = setInterval(this.refreshClocksInfos, 5000);
-  }
-
-  stopPolling = () => {
-    if(this.polling != null)
-    {
-      clearInterval(this.polling);
-    }
-    this.polling = null;
+  setupListener = () => {
+    this.socket.on("clockListUpdate", this.setClocksInfos);
   }
 
   setClocksInfos = (data) => {
@@ -139,11 +130,6 @@ class Clockworks extends React.Component {
       var clock = modifiedClocks[i];
       promise = promise.then(()=>{ return this.putClockById(clock._id, clock) });
     }
-
-    if(promise !== null)
-    {
-      promise.then(this.refreshClocksInfos);
-    }
   }
 
   onDeleteClock = (clockId) => {
@@ -156,25 +142,18 @@ class Clockworks extends React.Component {
 
   // Connexion Stuff
   refreshClocksInfos = () => {
-    this.stopPolling();
     return fetch(`/api/v1/clock/list?t=${Date.now()}`).then(this.onDataRecieved)
-                                                      .then(this.setClocksInfos)
-                                                      .then(this.startPolling);
+                                                      .then(this.setClocksInfos);
   }
 
   postNewClock = (clockInfo) => {
-    // Stop polling during operations
-    this.stopPolling();
-
     return fetch(`/api/v1/clock`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(clockInfo)
-    })
-    .then(this.refreshClocksInfos)
-    .then(this.startPolling);
+    });
   }
 
   putClockById = (clockId, clockInfo) => {
@@ -188,15 +167,12 @@ class Clockworks extends React.Component {
   }
 
   deleteClockById = (clockId) => {
-    this.stopPolling();
     return fetch(`/api/v1/clock/${clockId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
       }
-    })
-    .then(this.refreshClocksInfos)
-    .then(this.startPolling);
+    });
   }
 
   onDataRecieved = (res) => {
