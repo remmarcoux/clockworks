@@ -3,9 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Clockworks from './clockworks';
 import * as serviceWorker from './serviceWorker';
+import MetaTags from "react-meta-tags";
 
 var appContext = (
-    <div className="App">
+  <div className="App">
+    <MetaTags>
+      <title>Clockworks - A Blades in the Dark clocks manager</title>
+      <meta name="description" content="A simple Clock Tracking App for Blades in the Dark - save trees, create digital clocks ^^" />
+    </MetaTags>
     <header className="App-header">
       <h1>ClockWorks</h1>
     </header>
