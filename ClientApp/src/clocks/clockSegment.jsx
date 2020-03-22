@@ -7,21 +7,36 @@ import React from 'react';
 class ClockSegment extends React.Component {
   render(){
     var tickedClass = this.props.ticked ? "ticked" : "unticked";  
-    var circleAngle = 360 / this.props.clockSize;
-    var skew = 90 - circleAngle;
-
-    var rotationAngle = ( circleAngle * ( this.props.value ) );
-
-    var style = {
-      transform: "rotate(" + rotationAngle + "deg) skew(0, " + skew + "deg)"
-    };
 
     return (
       <div onClick={this.onSegmentClicked } 
            className={ "clock-segment " + tickedClass }
-           style={ style }>
+           style={ this.getSegmentStyle() }>
       </div>
     );
+  }
+
+  getSegmentStyle = () => {
+    var rotationAngle;
+    if(this.props.clockSize === 2)
+    {
+      // Fix for size 2 clocks
+      var position = this.props.value === 1 ? "calc(-100% - 2px)" : "-2px";
+      rotationAngle = this.props.value === 1 ? 180 : 0;
+      return {
+        transform: "rotate(" + rotationAngle + "deg)",
+        top: position
+      }
+    }
+
+    var circleAngle = 360 / this.props.clockSize;
+    var skew = 90 - circleAngle;
+
+    rotationAngle = ( circleAngle * ( this.props.value ) );
+
+    return {
+      transform: "rotate(" + rotationAngle + "deg) skew(0, " + skew + "deg)"
+    }
   }
 
   onSegmentClicked = (e) => {
