@@ -13,6 +13,7 @@ var appContext = (
         <Clockworks />
     </main>
     <footer>
+      <a href="https://github.com/remmarcoux/clockworks">Clockworks Project on Github</a>
     </footer>
   </div>
 )
