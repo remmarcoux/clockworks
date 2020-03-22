@@ -136,7 +136,7 @@ class ClockEdit extends React.Component {
 
         if(value <= 2 || value === "")
         {
-            value = 3;
+            value = 2;
         }
 
         this.props.onSegmentsCountChanged(value);
