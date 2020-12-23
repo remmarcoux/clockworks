@@ -626,3 +626,4 @@ MigrationBackup/
 # End of https://www.gitignore.io/api/node,linux,macos,windows,jetbrains,visualstudio,visualstudiocode
 
 ./config/local-*.*
+./config/local*

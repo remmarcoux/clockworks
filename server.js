@@ -2,13 +2,12 @@ const express = require("express");
 const config = require("config");
 const winston = require("winston");
 const expressWinston = require("express-winston");
-const mongoose = require("mongoose");
 const path = require("path");
 const connection = require("./socket.connect");
-let app = connection.app;
+const MongoService = require("./services/mongodb.service")
 
-mongoose.connect(config.get("database.connectionString"),  { useNewUrlParser: true });
-let db = mongoose.connection;
+let app = connection.app;
+let mongoService = new MongoService()
 
 const logger = winston.createLogger(require("./loggingoptions.js"));
 
@@ -25,7 +24,7 @@ app.use(require("./api/clock.router.js"));
 
 app.use(expressWinston.errorLogger(logger));
 
-db.once("open", function(){
+mongoService.initialize().then(function(){
     logger.info("Connected to mongodb");
 
     connection.server.listen(config.get("server.port"), function(){
