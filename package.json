@@ -21,7 +21,7 @@
   "homepage": "https://github.com/remmarcoux/clockworks#readme",
   "dependencies": {
     "config": "^3.2.5",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-winston": "^4.0.3",
     "js-yaml": "^3.13.1",
     "mongoose": "^5.9.1",
