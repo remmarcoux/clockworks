@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/remmarcoux/clockworks#readme",
   "dependencies": {
-    "config": "^3.2.5",
+    "config": "^3.3.8",
     "express": "^4.17.1",
     "express-winston": "^4.0.3",
     "js-yaml": "^3.13.1",
